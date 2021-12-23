@@ -8,6 +8,7 @@ parameters:
     inferPrivatePropertyTypeFromConstructor: true
     paths:
         - %currentWorkingDirectory%/src/
+        - %currentWorkingDirectory%/lib/
     excludePaths:
         - %currentWorkingDirectory%/tests/*
     bootstrapFiles:

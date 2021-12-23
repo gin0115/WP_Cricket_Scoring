@@ -44,7 +44,9 @@
         "pinkcrab/perique-migration": "dev-master",
         "pinkcrab/ajax": "^1.0",
         "pinkcrab/bladeone-provider": "^1.2",
-        "pinkcrab/perique-admin-menu": "^0.1.1"
+        "pinkcrab/perique-admin-menu": "^0.1.1",
+        "psr/log": "^1.1",
+        "pinkcrab/wp-hook-subscriber": "^1.0"
 
     },
     "scripts": {

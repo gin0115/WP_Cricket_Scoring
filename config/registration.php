@@ -9,4 +9,11 @@ declare (strict_types=1);
  * @author Glynn Quelch <glynn.quelch@gmail.com>
  */
 
-return array();
+use Gin0115\WP_Cricket_Scoring\Admin\Page\Menu_Group;
+use Gin0115\WP_Cricket_Scoring\Admin\Page\Event\Plugin_Settings_Page_Update_Event;
+
+return array(
+	// WP-Admin - Pages
+	Menu_Group::class,
+	Plugin_Settings_Page_Update_Event::class,
+);
