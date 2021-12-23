@@ -4,9 +4,8 @@ composer.lock
 coverage.xml
 clover.xml
 /coverage-report
-plugin.php
 
+#IDEs
 .idea
-#vscode
 .vscode
 workspace.code-workspace
