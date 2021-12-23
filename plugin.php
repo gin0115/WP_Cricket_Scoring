@@ -59,15 +59,11 @@ $app = ( new App_Factory() )
 	->app_config( $get_config( 'app_config.php' ) )
 	->di_rules( $get_config( 'dependencies.php' ) )
 	->registration_classes( $get_config( 'registration.php' ) )
-
-	// Admin menu middleware
-
+	->construct_registration_middleware( Page_Middleware::class )
 	->boot();
-$app->construct_registration_middleware( Page_Middleware::class );
 
 // Create instance of plugin state controller
 $psc        = Plugin_State_Controller::init( $app, __FILE__ );
 $migrations = new Migrations( $psc );
 $migrations->done();
 $psc->finalise();
-
