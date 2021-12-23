@@ -25,7 +25,7 @@ define( 'WP_DEBUG', true );
 // ** MySQL settings ** //
 
 // This configuration file will be used by the copy of WordPress being tested.
-// wordpress/wp-config.php will be ignored.
+// wordpress/wp-config.php will be ignored. 
 
 // WARNING WARNING WARNING!
 // These tests will DROP ALL TABLES in the database with the prefix named below.
