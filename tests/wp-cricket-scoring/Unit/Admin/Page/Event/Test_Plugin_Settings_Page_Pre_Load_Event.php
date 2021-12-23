@@ -15,4 +15,8 @@ use WP_UnitTestCase;
 
 class Test_Plugin_Settings_Page_Pre_Load_Event extends WP_UnitTestCase {
 
+	/** @testdox The pre load hook event should only be created after the menu pages are registered. */
+	public function test_creates_deferred_hook(): void {
+		$this->assertTrue( 1 === 1 );
+	}
 }

@@ -55,4 +55,13 @@ class Plugin_Settings_Page_Pre_Load_Event extends Abstract_Load_Page_Event {
 	public function page_load_event(): void {
 		echo 'Loaded in before page content';
 	}
+
+	/**
+	 * Validates the request
+	 *
+	 * @return void
+	 * @throws \Exception If fails validation
+	 */
+	protected function validate_request(): void {
+	}
 }

@@ -24,12 +24,15 @@ declare(strict_types=1);
 
 namespace Gin0115\WP_Cricket_Scoring\Admin\Page;
 
+use PinkCrab\Nonce\Nonce;
 use Gin0115\WP_Cricket_Scoring\Plugin_Settings;
 use PinkCrab\Perique_Admin_Menu\Page\Menu_Page;
 use Gin0115\WP_Cricket_Scoring\I18N\Translations;
 use Gin0115\WP_Cricket_Scoring\Admin\Page\Menu_Page_Slugs;
 
 class Plugin_Settings_Page extends Menu_Page {
+
+	public const SETTINGS_NONCE_HANDLE = 'settings_page';
 
 	/**
 	 * The pages position, in relation to other pages in group.
@@ -57,8 +60,21 @@ class Plugin_Settings_Page extends Menu_Page {
 
 		// Set the view data.
 		$this->view_data = array(
-			'i18n'     => $translations,
 			'settings' => $plugin_settings,
+			'nonce'    => ( new Nonce( self::SETTINGS_NONCE_HANDLE ) )->nonce_field(),
+			'i18n'     => $translations->admin_menu_translations(),
+		) + $this->unpack_settings( $plugin_settings );
+	}
+
+	/**
+	 * Unpacks the Plugin Settings object into an array of variables.
+	 *
+	 * @param \Gin0115\WP_Cricket_Scoring\Plugin_Settings $plugin_settings
+	 * @return array<string, mixed>
+	 */
+	protected function unpack_settings( Plugin_Settings $plugin_settings ): array {
+		return array(
+			'live_score_poll_interval' => $plugin_settings->get_live_score_poll_interval(),
 		);
 	}
 

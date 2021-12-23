@@ -2,8 +2,8 @@
 <phpunit bootstrap="tests/bootstrap.php" backupGlobals="false" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true">
     <testsuites>
         <testsuite name="gin0115_wp_cricket_scores">
-            <directory prefix="Test_" suffix=".php">./tests/wp-cricket-score</directory>
-            <directory prefix="Test_" suffix=".php">./tests/cricket-score</directory>
+            <directory prefix="Test_" suffix=".php">./tests/wp-cricket-scoring</directory>
+            <directory prefix="Test_" suffix=".php">./tests/cricket-scoring</directory>
         </testsuite>
     </testsuites>
 
