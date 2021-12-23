@@ -13,15 +13,15 @@
     }],
     "autoload": {
         "psr-4": {
-            "Gin0115\\WP_Cricket_Score\\": "src/",
-            "Gin0115\\Cricket_Score\\": "lib/"
+            "Gin0115\\WP_Cricket_Scoring\\": "src/",
+            "Gin0115\\Cricket_Scoring\\": "lib/"
         },
         "files": []
     },
     "autoload-dev": {
         "psr-4": {
-            "Gin0115\\WP_Cricket_Score\\Tests\\": "tests/wp-cricket-score/",
-            "Gin0115\\Cricket_Score\\Tests\\": "tests/cricket-score/"
+            "Gin0115\\WP_Cricket_Scoring\\Tests\\": "tests/wp-cricket-scoring/",
+            "Gin0115\\Cricket_Scoring\\Tests\\": "tests/cricket-scoring/"
         }
     },
     "require-dev": {
