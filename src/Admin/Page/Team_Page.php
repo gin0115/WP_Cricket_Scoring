@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Primary admin menu group for pages
+ * Team (List, Edit & Create) page
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -24,24 +24,43 @@ declare(strict_types=1);
 
 namespace Gin0115\WP_Cricket_Scoring\Admin\Page;
 
-use Gin0115\WP_Cricket_Scoring\Admin\Page\Team_Page;
-use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
-use Gin0115\WP_Cricket_Scoring\Admin\Page\Plugin_Settings_Page;
-use Gin0115\WP_Cricket_Scoring\I18N\Translations\Admin_Menu_Translations;
+use Gin0115\WP_Cricket_Scoring\Plugin_Settings;
+use PinkCrab\Perique_Admin_Menu\Page\Menu_Page;
+use Gin0115\WP_Cricket_Scoring\I18N\Translations;
+use Gin0115\WP_Cricket_Scoring\Admin\Page\Menu_Page_Slugs;
 
-class Menu_Group extends Abstract_Group {
+class Team_Page extends Menu_Page {
 
-	protected $primary_page = Plugin_Settings_Page::class;
+	/**
+	 * The pages position, in relation to other pages in group.
+	 *
+	 * @var int
+	 */
+	protected $position = 5;
 
-	protected $pages = array( Team_Page::class, Game_Page::class );
+	/**
+	 * The template to be rendered.
+	 *
+	 * @var string
+	 */
+	protected $view_template = 'admin.page.team-page';
 
-	protected $capability = 'manage_options';
+	protected Plugin_Settings $plugin_settings;
 
-	protected $icon = 'dashicons-admin-generic';
+	public function __construct(
+		Translations $translations,
+		Plugin_Settings $plugin_settings
+	) {
+		$this->page_slug  = Menu_Page_Slugs::TEAM_PAGE;
+		$this->menu_title = $translations->admin_menu_translations()->menu_title( 'team_page' );
+		$this->page_title = $translations->admin_menu_translations()->page_title( 'team_page' );
 
-	protected $position = 65;
-
-	public function __construct( Admin_Menu_Translations $translations ) {
-		$this->group_title = $translations->menu_title( 'menu_group' );
+		// Set the view data.
+		$this->view_data = array(
+			'i18n'     => $translations,
+			'settings' => $plugin_settings,
+		);
 	}
+
+
 }

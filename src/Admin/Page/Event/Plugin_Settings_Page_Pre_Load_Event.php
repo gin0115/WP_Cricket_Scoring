@@ -24,20 +24,16 @@ declare(strict_types=1);
 
 namespace Gin0115\WP_Cricket_Scoring\Admin\Page\Event;
 
-use PinkCrab\Loader\Hook_Loader;
-use PinkCrab\Perique\Interfaces\Hookable;
 use PinkCrab\Perique\Application\App_Config;
 use Psr\Http\Message\ServerRequestInterface;
-use PinkCrab\Hook_Subscriber\Abstract_Hook_Subscription;
+use Gin0115\WP_Cricket_Scoring\Admin\Page\Menu_Page_Slugs;
 
-class Plugin_Settings_Page_Update_Event extends Abstract_Load_Page_Event {
+class Plugin_Settings_Page_Pre_Load_Event extends Abstract_Load_Page_Event {
 
-	protected App_Config $app_config;
 	protected ServerRequestInterface $request;
 
-	public function __construct( App_Config $app_config, ServerRequestInterface $request ) {
-		$this->app_config = $app_config;
-		$this->request    = $request;
+	public function __construct( ServerRequestInterface $request ) {
+		$this->request = $request;
 	}
 
 	/**
@@ -48,10 +44,7 @@ class Plugin_Settings_Page_Update_Event extends Abstract_Load_Page_Event {
 	 */
 	public function page_hook(): string {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		return \get_plugin_page_hookname(
-			$this->app_config->additional( 'admin_menu_slugs' )['settings_page'],
-			''
-		);
+		return \get_plugin_page_hookname( Menu_Page_Slugs::SETTINGS_PAGE, '' );
 	}
 
 	/**

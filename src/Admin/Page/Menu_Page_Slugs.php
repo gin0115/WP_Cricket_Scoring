@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Primary admin menu group for pages
+ * Faux enum for admin page slugs
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -24,24 +24,8 @@ declare(strict_types=1);
 
 namespace Gin0115\WP_Cricket_Scoring\Admin\Page;
 
-use Gin0115\WP_Cricket_Scoring\Admin\Page\Team_Page;
-use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
-use Gin0115\WP_Cricket_Scoring\Admin\Page\Plugin_Settings_Page;
-use Gin0115\WP_Cricket_Scoring\I18N\Translations\Admin_Menu_Translations;
-
-class Menu_Group extends Abstract_Group {
-
-	protected $primary_page = Plugin_Settings_Page::class;
-
-	protected $pages = array( Team_Page::class, Game_Page::class );
-
-	protected $capability = 'manage_options';
-
-	protected $icon = 'dashicons-admin-generic';
-
-	protected $position = 65;
-
-	public function __construct( Admin_Menu_Translations $translations ) {
-		$this->group_title = $translations->menu_title( 'menu_group' );
-	}
+class Menu_Page_Slugs {
+	public const SETTINGS_PAGE = 'wp_cricket_scoring_settings';
+	public const TEAM_PAGE     = 'wp_cricket_scoring_team';
+	public const GAME_PAGE     = 'wp_cricket_scoring_game';
 }

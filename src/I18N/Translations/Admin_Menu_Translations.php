@@ -37,6 +37,15 @@ class Admin_Menu_Translations {
 			case 'menu_group':
 				return _x( 'Cricket Scoring', 'Primary Admin Menu group title' );
 
+			case 'settings_page':
+				return _x( 'Settings', 'Primary Admin Menu group title' );
+
+			case 'team_page':
+				return _x( 'Team Management', 'Primary Admin Menu group title' );
+
+			case 'game_page':
+				return _x( 'Game Management', 'Primary Admin Menu group title' );
+
 			default:
 				return _x( 'Translation Missing', 'Fallback of missing translation for Admin_Menu_Translations::menu_title' );
 		}
@@ -53,6 +62,14 @@ class Admin_Menu_Translations {
 			case 'menu_group':
 				return _x( 'Cricket Scoring', 'Primary Admin Menu group title' );
 
+			case 'settings_page':
+				return _x( 'Settings', 'Primary Admin Menu group title' );
+
+			case 'team_page':
+				return _x( 'Team Page', 'Primary Admin Menu group title' );
+
+			case 'game_page':
+				return _x( 'Game Management', 'Primary Admin Menu group title' );
 			default:
 				return _x( 'Translation Missing', 'Fallback of missing translation for Admin_Menu_Translations::page_title' );
 		}

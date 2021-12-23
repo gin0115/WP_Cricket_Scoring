@@ -1,5 +1,6 @@
 <?php
 
+
 declare (strict_types=1);
 
 /**
@@ -9,11 +10,4 @@ declare (strict_types=1);
  * @author Glynn Quelch <glynn.quelch@gmail.com>
  */
 
-return array(
-	'additional' => array(
-		'admin_menu_slugs' => array(
-			'menu_group'    => 'wp_cricket_scoring',
-			'settings_page' => 'wp_cricket_scoring_settings_page',
-		),
-	),
-);
+return array();

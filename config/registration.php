@@ -10,10 +10,10 @@ declare (strict_types=1);
  */
 
 use Gin0115\WP_Cricket_Scoring\Admin\Page\Menu_Group;
-use Gin0115\WP_Cricket_Scoring\Admin\Page\Event\Plugin_Settings_Page_Update_Event;
+use Gin0115\WP_Cricket_Scoring\Admin\Page\Event\Plugin_Settings_Page_Pre_Load_Event;
 
 return array(
 	// WP-Admin - Pages
 	Menu_Group::class,
-	Plugin_Settings_Page_Update_Event::class,
+	Plugin_Settings_Page_Pre_Load_Event::class,
 );
