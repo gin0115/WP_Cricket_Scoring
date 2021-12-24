@@ -22,11 +22,11 @@ declare(strict_types=1);
  * @package Gin0115\Cricket Scoring
  */
 
-namespace Gin0115\WP_Cricket_Scoring\Admin\Form;
+namespace Gin0115\WP_Cricket_Scoring\Admin\Form\Validator;
 
-use PinkCrab\FunctionConstructors\Comparisons as Comp;
 use Gin0115\WP_Cricket_Scoring\Admin\Form\Validator\Rule;
-use PinkCrab\FunctionConstructors\GeneralFunctions as Func;
+use function PinkCrab\FunctionConstructors\Comparisons\not as not;
+use function PinkCrab\FunctionConstructors\Comparisons\isGreaterThan as greater_than;
 
 class Settings_Validator {
 
@@ -56,7 +56,7 @@ class Settings_Validator {
 			}
 		}
 
-		return count( $this->errors ) === 0;
+		return ! $this->has_errors();
 	}
 
 	/**
@@ -68,9 +68,9 @@ class Settings_Validator {
 	protected function rule_set(): array {
 		return array(
 			'live_score_poll_interval' => Rule::create()
-				->assert( Comp\not( 'is_null' ), 'Live Score Poll Interval is empty.' )
+				->assert( not( 'is_null' ), 'Live Score Poll Interval is empty.' )
 				->assert( 'is_numeric', 'Live Score Poll Interval must be a number' )
-				->assert( Comp\isGreaterThan( 0 ), 'Live Score Poll Interval must be 1 or greater.' ),
+				->assert( greater_than( 0 ), 'Live Score Poll Interval must be 1 or greater.' ),
 		);
 	}
 
