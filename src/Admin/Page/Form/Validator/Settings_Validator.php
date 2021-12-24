@@ -28,36 +28,7 @@ use Gin0115\WP_Cricket_Scoring\Admin\Form\Validator\Rule;
 use function PinkCrab\FunctionConstructors\Comparisons\not as not;
 use function PinkCrab\FunctionConstructors\Comparisons\isGreaterThan as greater_than;
 
-class Settings_Validator {
-
-	/** @var array<int,array{field:string,errors:string[]}> */
-	protected array $errors = array();
-
-	/**
-	 * Validates a key value representation of a request
-	 * against the defined rule set.
-	 *
-	 * @param array<string, mixed> $request
-	 * @return bool
-	 */
-	public function validate( array $request ): bool {
-		foreach ( $this->rule_set() as $key => $rule ) {
-			// Attempt to get the value from request
-			$value = \array_key_exists( $key, $request )
-				? $request[ $key ]
-				: null;
-
-			// Validate it passed the rules checks.
-			$rule->check( $value );
-
-			// If we have any errors from check, add to global errors.
-			if ( $rule->has_errors() ) {
-				$this->add_error( $key, $rule->errors() );
-			}
-		}
-
-		return ! $this->has_errors();
-	}
+class Settings_Validator extends Abstract_Validator {
 
 	/**
 	 * Returns the validation rules.
@@ -70,39 +41,7 @@ class Settings_Validator {
 			'live_score_poll_interval' => Rule::create()
 				->assert( not( 'is_null' ), 'Live Score Poll Interval is empty.' )
 				->assert( 'is_numeric', 'Live Score Poll Interval must be a number' )
-				->assert( greater_than( 0 ), 'Live Score Poll Interval must be 1 or greater.' ),
+				->assert( not( greater_than( 0 ) ), 'Live Score Poll Interval must be more than 0.' ), // Context here is revered as isGreaterThan() calls "is 0 greater than x", reversed using not for this context.
 		);
-	}
-
-	/**
-	 * Adds errors based on field to the errors array
-	 *
-	 * @param string $field
-	 * @param string[] $errors
-	 * @return void
-	 */
-	protected function add_error( string $field, array $errors ): void {
-		$this->errors[] = array(
-			'field'  => $field,
-			'errors' => $errors,
-		);
-	}
-
-	/**
-	 * Checks if there are errors.
-	 *
-	 * @return bool
-	 */
-	public function has_errors(): bool {
-		return count( $this->errors ) >= 1;
-	}
-
-	/**
-	 * Returns the current error messages.
-	 *
-	 * @return array<int,array{field:string,errors:string[]}>
-	 */
-	public function errors(): array {
-		return $this->errors;
 	}
 }
