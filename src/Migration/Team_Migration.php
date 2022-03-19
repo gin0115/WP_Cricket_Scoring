@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Event handler for updating plugin settings via Plugin Settings Page
+ * Settings page form handler
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -22,37 +22,67 @@ declare(strict_types=1);
  * @package Gin0115\Cricket Scoring
  */
 
-namespace Gin0115\WP_Cricket_Scoring\Admin\Page\Event;
+namespace Gin0115\WP_Cricket_Scoring\Migration;
 
+use PinkCrab\Table_Builder\Schema;
+use PinkCrab\Perique\Migration\Migration;
 use PinkCrab\Perique\Application\App_Config;
-use Psr\Http\Message\ServerRequestInterface;
-use Gin0115\WP_Cricket_Scoring\Admin\Page\Menu_Page_Slugs;
 
-class Plugin_Settings_Page_Pre_Load_Event extends Abstract_Load_Page_Event {
+class Team_Migration extends Migration {
 
-	protected ServerRequestInterface $request;
+	protected App_Config $config;
 
-	public function __construct( ServerRequestInterface $request ) {
-		$this->request = $request;
+	public function __construct( App_Config $config ) {
+		$this->config = $config;
+		parent::__construct();
 	}
 
 	/**
-	 * Returns the hook for the page
+	 * Table name from config
 	 *
-	 * @called on admin_menu priority 15
 	 * @return string
 	 */
-	public function page_hook(): string {
-		require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		return \get_plugin_page_hookname( Menu_Page_Slugs::SETTINGS_PAGE, '' );
+	protected function table_name(): string {
+		return $this->config->db_tables( 'teams' );
 	}
 
 	/**
-	 * The callback for the page load event.
+	 * Drop on deactivation.
 	 *
+	 * @return bool
+	 */
+	public function drop_on_deactivation(): bool {
+		return true;
+	}
+
+	/**
+	 * Defines the schema for the migration.
+	 *
+	 * @param Schema $schema_config
 	 * @return void
 	 */
-	public function page_load_event(): void {
-		echo 'Loaded in before page content';
+	public function schema( Schema $schema ): void {
+		$schema->column( 'id' )
+			->unsigned_int( 11 )
+			->auto_increment();
+
+		$schema->column( 'club' )
+			->varchar( 50 );
+
+		$schema->column( 'squad' )
+			->varchar( 50 );
+
+		$schema->column( 'additional' )
+			->text( 255 );
+
+		$schema->column( 'created' )
+			->datetime( 'CURRENT_TIMESTAMP' );
+
+		$schema->column( 'updated' )
+			->datetime( 'CURRENT_TIMESTAMP' );
+
+		$schema->index( 'id' )->primary();
 	}
+
+
 }

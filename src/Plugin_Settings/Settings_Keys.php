@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Primary admin menu group for pages
+ * Settings key values faux enum
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -22,26 +22,8 @@ declare(strict_types=1);
  * @package Gin0115\Cricket Scoring
  */
 
-namespace Gin0115\WP_Cricket_Scoring\Admin\Page;
+namespace Gin0115\WP_Cricket_Scoring\Plugin_Settings;
 
-use Gin0115\WP_Cricket_Scoring\Admin\Page\Team_Page;
-use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
-use Gin0115\WP_Cricket_Scoring\Plugin_Settings\Settings_Page;
-use Gin0115\WP_Cricket_Scoring\I18N\Translations\Admin_Menu_Translations;
-
-class Menu_Group extends Abstract_Group {
-
-	protected $primary_page = Settings_Page::class;
-
-	protected $pages = array( Team_Page::class, Game_Page::class );
-
-	protected $capability = 'manage_options';
-
-	protected $icon = 'dashicons-admin-generic';
-
-	protected $position = 65;
-
-	public function __construct( Admin_Menu_Translations $translations ) {
-		$this->group_title = $translations->menu_title( 'menu_group' );
-	}
+class Settings_Keys {
+	public const LIVE_SCORE_POLL_INTERVAL = 'live_score_poll_interval';
 }

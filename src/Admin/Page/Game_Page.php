@@ -43,7 +43,7 @@ class Game_Page extends Menu_Page {
 	 *
 	 * @var string
 	 */
-	protected $view_template = 'admin.page.team-page';
+	protected $view_template = 'admin.page.game-page';
 
 	protected Plugin_Settings $plugin_settings;
 
@@ -51,7 +51,7 @@ class Game_Page extends Menu_Page {
 		Translations $translations,
 		Plugin_Settings $plugin_settings
 	) {
-		$this->page_slug  = Menu_Page_Slugs::TEAM_PAGE;
+		$this->page_slug  = Menu_Page_Slugs::GAME_PAGE;
 		$this->menu_title = $translations->admin_menu_translations()->menu_title( 'game_page' );
 		$this->page_title = $translations->admin_menu_translations()->page_title( 'game_page' );
 

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Admin Settings page.
+ * Repository for saving and loading the plugin settings.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -22,44 +22,40 @@ declare(strict_types=1);
  * @package Gin0115\Cricket Scoring
  */
 
-namespace Gin0115\WP_Cricket_Scoring\Admin\Page;
+namespace Gin0115\WP_Cricket_Scoring\Plugin_Settings;
 
 use Gin0115\WP_Cricket_Scoring\Plugin_Settings;
-use PinkCrab\Perique_Admin_Menu\Page\Menu_Page;
-use Gin0115\WP_Cricket_Scoring\I18N\Translations;
-use Gin0115\WP_Cricket_Scoring\Admin\Page\Menu_Page_Slugs;
 
-class Plugin_Settings_Page extends Menu_Page {
+class Settings_Repository {
 
-	/**
-	 * The pages position, in relation to other pages in group.
-	 *
-	 * @var int
-	 */
-	protected $position = 10;
+	protected string $transient_key;
+
+	public function __construct( string $transient_key = null ) {
+		$this->transient_key = $transient_key ?? 'wp_cricket_scorer_settings';
+	}
 
 	/**
-	 * The template to be rendered.
+	 * Attempts to get the current settings from transient
+	 * If not set, will return a new instance.
 	 *
-	 * @var string
+	 * @return Plugin_Settings
 	 */
-	protected $view_template = 'admin.page.settings-page';
+	public function get(): Plugin_Settings {
+		$settings = \get_option( $this->transient_key );
+		return is_string( $settings )
+			? \unserialize( $settings )
+			: new Plugin_Settings();
+	}
 
-	protected Plugin_Settings $plugin_settings;
-
-	public function __construct(
-		Translations $translations,
-		Plugin_Settings $plugin_settings
-	) {
-		$this->page_slug  = Menu_Page_Slugs::SETTINGS_PAGE;
-		$this->menu_title = $translations->admin_menu_translations()->menu_title( 'settings_page' );
-		$this->page_title = $translations->admin_menu_translations()->page_title( 'settings_page' );
-
-		// Set the view data.
-		$this->view_data = array(
-			'i18n'     => $translations,
-			'settings' => $plugin_settings,
-		);
+	/**
+	 * Updates the Plugin Settings instance.
+	 *
+	 * @param \Gin0115\WP_Cricket_Scoring\Plugin_Settings $settings
+	 * @return self
+	 */
+	public function save( Plugin_Settings $settings ): self {
+		\update_option( $this->transient_key, \serialize( $settings ) );
+		return $this;
 	}
 
 

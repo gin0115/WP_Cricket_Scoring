@@ -74,4 +74,16 @@ class Admin_Menu_Translations {
 				return _x( 'Translation Missing', 'Fallback of missing translation for Admin_Menu_Translations::page_title' );
 		}
 	}
+
+	public function settings_page_form_labels( string $key ): string {
+		switch ( $key ) {
+			case 'live_score_poll_interval':
+				return _x( 'Live score update', 'Primary Admin Menu group title' );
+			case 'form_submit_button':
+				return _x( 'Update Settings', 'Primary Admin Menu group title' );
+
+			default:
+				return _x( 'Translation Missing', 'Fallback of missing translation for Admin_Menu_Translations::settings_page_form_labels' );
+		}
+	}
 }
