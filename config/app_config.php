@@ -10,4 +10,6 @@ declare (strict_types=1);
  * @author Glynn Quelch <glynn.quelch@gmail.com>
  */
 
-return array();
+return array(
+	'db_tables' => array( 'teams' => 'cricket_teams' ),
+);

@@ -14,7 +14,7 @@
     "autoload": {
         "psr-4": {
             "Gin0115\\WP_Cricket_Scoring\\": "src/",
-            "Gin0115\\Cricket_Scoring\\": "lib/"
+            "Gin0115\\Lib\\": "lib/"
         },
         "files": []
     },
@@ -48,7 +48,8 @@
         "psr/log": "^1.1",
         "pinkcrab/wp-hook-subscriber": "^1.0",
         "pinkcrab/wp-nonce": "^0.1.0",
-        "pinkcrab/function-constructors": "^0.1.3"
+        "pinkcrab/function-constructors": "^0.1.3",
+        "usmanhalalit/pixie": "^2.0"
 
     },
     "scripts": {

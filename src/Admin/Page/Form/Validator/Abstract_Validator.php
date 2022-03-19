@@ -22,7 +22,7 @@ declare(strict_types=1);
  * @package Gin0115\Cricket Scoring
  */
 
-namespace Gin0115\WP_Cricket_Scoring\Admin\Form\Validator;
+namespace Gin0115\WP_Cricket_Scoring\Admin\Page\Form\Validator;
 
 use Gin0115\WP_Cricket_Scoring\Admin\Form\Validator\Rule;
 

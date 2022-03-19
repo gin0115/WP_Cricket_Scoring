@@ -22,13 +22,17 @@ declare(strict_types=1);
  * @package Gin0115\Cricket Scoring
  */
 
-namespace Gin0115\WP_Cricket_Scoring\Admin\Form\Validator;
+namespace Gin0115\WP_Cricket_Scoring\Plugin_Settings;
 
-use Gin0115\WP_Cricket_Scoring\Admin\Form\Validator\Rule;
+use PinkCrab\Nonce\Nonce;
+use Gin0115\WP_Cricket_Scoring\Plugin_Settings\Settings_Keys;
+use Gin0115\WP_Cricket_Scoring\Plugin_Settings\Settings_Page;
+use Gin0115\WP_Cricket_Scoring\Admin\Page\Form\Validator\Rule;
 use function PinkCrab\FunctionConstructors\Comparisons\not as not;
+use Gin0115\WP_Cricket_Scoring\Admin\Page\Form\Validator\Abstract_Validator;
 use function PinkCrab\FunctionConstructors\Comparisons\isGreaterThan as greater_than;
 
-class Settings_Validator extends Abstract_Validator {
+class Settings_Form_Validator extends Abstract_Validator {
 
 	/**
 	 * Returns the validation rules.
@@ -38,10 +42,16 @@ class Settings_Validator extends Abstract_Validator {
 	 */
 	protected function rule_set(): array {
 		return array(
-			'live_score_poll_interval' => Rule::create()
+			Settings_Keys::LIVE_SCORE_POLL_INTERVAL => Rule::create()
 				->assert( not( 'is_null' ), 'Live Score Poll Interval is empty.' )
 				->assert( 'is_numeric', 'Live Score Poll Interval must be a number' )
 				->assert( not( greater_than( 0 ) ), 'Live Score Poll Interval must be more than 0.' ), // Context here is revered as isGreaterThan() calls "is 0 greater than x", reversed using not for this context.
+			'_wpnonce'                              => Rule::create()
+				->assert( not( 'is_null' ), 'Live Score Poll Interval is empty.' )
+				->assert(
+					array( new Nonce( Settings_Page::SETTINGS_NONCE_HANDLE ), 'validate' ),
+					'Live Score Poll Interval is empty.'
+				),
 		);
 	}
 }

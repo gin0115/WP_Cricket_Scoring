@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Admin Settings page.
+ * Plugin Settings Menu Page
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -22,15 +22,16 @@ declare(strict_types=1);
  * @package Gin0115\Cricket Scoring
  */
 
-namespace Gin0115\WP_Cricket_Scoring\Admin\Page;
+namespace Gin0115\WP_Cricket_Scoring\Plugin_Settings;
 
 use PinkCrab\Nonce\Nonce;
 use Gin0115\WP_Cricket_Scoring\Plugin_Settings;
 use PinkCrab\Perique_Admin_Menu\Page\Menu_Page;
 use Gin0115\WP_Cricket_Scoring\I18N\Translations;
 use Gin0115\WP_Cricket_Scoring\Admin\Page\Menu_Page_Slugs;
+use Gin0115\WP_Cricket_Scoring\Plugin_Settings\Settings_Keys;
 
-class Plugin_Settings_Page extends Menu_Page {
+class Settings_Page extends Menu_Page {
 
 	public const SETTINGS_NONCE_HANDLE = 'settings_page';
 
@@ -52,8 +53,11 @@ class Plugin_Settings_Page extends Menu_Page {
 
 	public function __construct(
 		Translations $translations,
-		Plugin_Settings $plugin_settings
+		Settings_Repository $settings_repository
 	) {
+		// Get the plugin settings.
+		$plugin_settings = $settings_repository->get();
+
 		$this->page_slug  = Menu_Page_Slugs::SETTINGS_PAGE;
 		$this->menu_title = $translations->admin_menu_translations()->menu_title( 'settings_page' );
 		$this->page_title = $translations->admin_menu_translations()->page_title( 'settings_page' );
@@ -74,7 +78,7 @@ class Plugin_Settings_Page extends Menu_Page {
 	 */
 	protected function unpack_settings( Plugin_Settings $plugin_settings ): array {
 		return array(
-			'live_score_poll_interval' => $plugin_settings->get_live_score_poll_interval(),
+			Settings_Keys::LIVE_SCORE_POLL_INTERVAL => $plugin_settings->get_live_score_poll_interval(),
 		);
 	}
 

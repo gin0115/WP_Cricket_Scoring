@@ -22,18 +22,30 @@ declare(strict_types=1);
  * @package Gin0115\Cricket Scoring
  */
 
-namespace Gin0115\WP_Cricket_Scoring\Admin\Page\Event;
+namespace Gin0115\WP_Cricket_Scoring\Plugin_Settings;
 
-use PinkCrab\Perique\Application\App_Config;
+use PinkCrab\Perique_Admin_Menu\Page\Page;
+use PinkCrab\Perique\Interfaces\Renderable;
 use Psr\Http\Message\ServerRequestInterface;
 use Gin0115\WP_Cricket_Scoring\Admin\Page\Menu_Page_Slugs;
+use Gin0115\WP_Cricket_Scoring\Admin\Page\Page_Notification;
+use Gin0115\WP_Cricket_Scoring\Plugin_Settings\Settings_Form_Handler;
+use Gin0115\WP_Cricket_Scoring\Admin\Page\Event\Abstract_Load_Page_Event;
 
-class Plugin_Settings_Page_Pre_Load_Event extends Abstract_Load_Page_Event {
+class Settings_Upsert_Action extends Abstract_Load_Page_Event {
 
 	protected ServerRequestInterface $request;
+	protected Settings_Form_Handler $form_handler;
+	protected Renderable $view;
 
-	public function __construct( ServerRequestInterface $request ) {
-		$this->request = $request;
+	public function __construct(
+		Settings_Form_Handler $form_handler,
+		ServerRequestInterface $request,
+		Renderable $view
+	) {
+		$this->view         = $view;
+		$this->request      = $request;
+		$this->form_handler = $form_handler;
 	}
 
 	/**
@@ -53,15 +65,37 @@ class Plugin_Settings_Page_Pre_Load_Event extends Abstract_Load_Page_Event {
 	 * @return void
 	 */
 	public function page_load_event(): void {
-		echo 'Loaded in before page content';
+		$request_body = (array) $this->request->getParsedBody();
+		if ( ! array_key_exists( 'action', $request_body )
+		|| 'submit' !== $request_body['action'] ) {
+			return;
+		}
+
+		$this->form_handler->handle( $this->request );
+		$this->render_notifications();
 	}
 
 	/**
-	 * Validates the request
+	 * Render any notifications
 	 *
 	 * @return void
-	 * @throws \Exception If fails validation
 	 */
-	protected function validate_request(): void {
+	protected function render_notifications(): void {
+		$notifications = new Page_Notification();
+		$notifications->set_status(
+			$this->form_handler->form_processed()
+				? Page_Notification::STATUS_SUCCESS
+				: Page_Notification::STATUS_FAIL
+		);
+
+		$notifications->add_many(
+			$this->form_handler->form_processed()
+				? array( 'Plugin Settings updated' )
+				: $this->form_handler->validator_errors()
+		);
+		$notifications->set_position( Page_Notification::POSITION_BOTTOM );
+
+		// Render notifications.
+		$this->view->render( 'admin.page.notifications', array( 'notifications' => $notifications ) );
 	}
 }

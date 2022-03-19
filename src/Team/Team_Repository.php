@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Primary admin menu group for pages
+ * Inteface for any Team Repository
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -22,26 +22,41 @@ declare(strict_types=1);
  * @package Gin0115\Cricket Scoring
  */
 
-namespace Gin0115\WP_Cricket_Scoring\Admin\Page;
+namespace Gin0115\WP_Cricket_Scoring\Team;
 
-use Gin0115\WP_Cricket_Scoring\Admin\Page\Team_Page;
-use PinkCrab\Perique_Admin_Menu\Group\Abstract_Group;
-use Gin0115\WP_Cricket_Scoring\Plugin_Settings\Settings_Page;
-use Gin0115\WP_Cricket_Scoring\I18N\Translations\Admin_Menu_Translations;
+interface Team_Repository {
 
-class Menu_Group extends Abstract_Group {
+	/**
+	 * Get all teams
+	 *
+	 * @param int|null $limit If null passed, will get all.
+	 * @return Team[]
+	 */
+	public function get( ?int $offset = 0, ?int $limit = null): array;
 
-	protected $primary_page = Settings_Page::class;
+	/**
+	 * Creates or updates a team
+	 *
+	 * @param Team $team
+	 * @return bool If team we updated/created
+	 */
+	public function upsert( Team $team): bool;
 
-	protected $pages = array( Team_Page::class, Game_Page::class );
+	/**
+	 * Delete a team.
+	 *
+	 * @param Team $team
+	 * @return bool
+	 */
+	public function delete( Team $team ): bool;
 
-	protected $capability = 'manage_options';
+	/**
+	 * Carry out a query
+	 *
+	 * @param string $query
+	 * @return array
+	 */
+	public function sql_query( string $query ): array;
 
-	protected $icon = 'dashicons-admin-generic';
 
-	protected $position = 65;
-
-	public function __construct( Admin_Menu_Translations $translations ) {
-		$this->group_title = $translations->menu_title( 'menu_group' );
-	}
 }

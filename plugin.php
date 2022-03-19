@@ -13,12 +13,17 @@
  * License: MIT
  **/
 
+use Gin0115\Lib\ORM\ORM;
+use Gin0115\Lib\ORM\Model;
 use eftec\bladeone\BladeOne;
 use PinkCrab\Ajax\Ajax_Bootstrap;
+use Gin0115\Lib\Query_Builder\Connection;
 use PinkCrab\BladeOne\BladeOne_Bootstrap;
 use PinkCrab\Perique\Migration\Migrations;
+use Pixie\QueryBuilder\QueryBuilderHandler;
 use PinkCrab\Perique\Application\App_Factory;
 use PinkCrab\Plugin_Lifecycle\Plugin_State_Controller;
+use Gin0115\WP_Cricket_Scoring\Migration\Team_Migration;
 use PinkCrab\Perique_Admin_Menu\Registration_Middleware\Page_Middleware;
 
 // Trigger admin notice if no autoloader
@@ -65,5 +70,11 @@ $app = ( new App_Factory() )
 // Create instance of plugin state controller
 $psc        = Plugin_State_Controller::init( $app, __FILE__ );
 $migrations = new Migrations( $psc );
+
+// Add migrations
+$migrations->add_migration( Team_Migration::class );
+
 $migrations->done();
 $psc->finalise();
+
+dump( new QueryBuilderHandler( new Connection( 'a', array() ) ) );
